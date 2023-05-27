@@ -56,6 +56,13 @@ const Layout = () => {
           <NavItem toUrl="/eris" isActive={location.pathname === "/eris"}>
             éris
           </NavItem>
+
+          <NavItem
+            toUrl="/remaining-money"
+            isActive={location.pathname === "/remaining-money"}
+          >
+            remaining money
+          </NavItem>
         </header>
       </div>
     </>
