@@ -71,57 +71,57 @@ const Layout = () => {
             <div className="ml-[28px]"> Gerenciador de tasks</div>
           </NavItem>
 
-          <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
+          {/* <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
             <DevIcon />
             <div className="ml-[28px]"> Configs do vscode</div>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
+          {/* <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
             <ChatIcon />
             <div className="ml-[28px]"> Chatbot Yara</div>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
+          <NavItem toUrl="/ux" isActive={location.pathname === "/ux"}>
             <UxIcon />
             <div className="ml-[28px]"> Ajuda UX</div>
           </NavItem>
         </div>
 
-        <h3 className="mt-[55px] text-left w-full text-base font-semibold px-[40px]">
+        {/* <h3 className="mt-[55px] text-left w-full text-base font-semibold px-[40px]">
           Entreterimento
-        </h3>
+        </h3> */}
 
         <div className="w-full">
-          <NavItem
+          {/* <NavItem
             toUrl="/playlists"
             isActive={location.pathname === "/playlists"}
           >
             <MusicIcon />
             <div className="ml-[28px]"> Playlist diversos</div>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem
+          {/* <NavItem
             toUrl="/playlists"
             isActive={location.pathname === "/playlists"}
           >
             <DnaIcon />
             <div className="ml-[28px]"> Pesquisa maluca</div>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem toUrl="/games" isActive={location.pathname === "/games"}>
+          {/* <NavItem toUrl="/games" isActive={location.pathname === "/games"}>
             <GamesIcon />
             <div className="ml-[28px]"> Jogos e review pessoal</div>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem toUrl="/gallery" isActive={location.pathname === "/gallery"}>
+          {/* <NavItem toUrl="/gallery" isActive={location.pathname === "/gallery"}>
             <GalleryIcon />
             <div className="ml-[28px]"> Galeria</div>
-          </NavItem>
-
+          </NavItem> */}
+          {/*
           <NavItem toUrl="/eris" isActive={location.pathname === "/eris"}>
             <ChatIcon />
             <div className="ml-[28px]"> Chatbot Éris - troll</div>
-          </NavItem>
+          </NavItem> */}
         </div>
       </div>
     </>
