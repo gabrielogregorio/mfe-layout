@@ -1,131 +1,32 @@
-import { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
-import {
-  ChatIcon,
-  DevIcon,
-  DnaIcon,
-  FinancingIcon,
-  GalleryIcon,
-  GamesIcon,
-  HomeIcon,
-  MusicIcon,
-  TaskIcon,
-  UxIcon,
-} from "./icons";
+import { useEffect, useRef, useState } from "react";
 
-const NavItem = ({
-  children,
-  isActive,
-  toUrl,
-}: {
-  children: ReactNode;
-  isActive: boolean;
-  toUrl: string;
-}) => {
-  return (
-    <Link
-      to={toUrl}
-      className={`text-base flex items-center py-[10px] px-[40px] font-semibold transition-all duration-700 hover:text-[#EEEEEE] hover:duration-150 flex-1  hover:bg-[#3f4252] z-[50] ${
-        isActive ? "bg-[#3f4252] text-[#EEEEEE]" : "bg-[#2A2D3E] text-[#EEEEEE]"
-      }`}
-    >
-      {children}
-    </Link>
-  );
-};
+export const Layout = () => {
+  const [acceptAudio, setAcceptAudio] = useState<boolean>(false);
+  const isFirstLoading = useRef(true);
 
-const Layout = () => {
-  const location = useLocation();
+  useEffect(() => {
+    if (acceptAudio) {
+      if (isFirstLoading.current) {
+        isFirstLoading.current = false;
+      }
+    }
+  }, [acceptAudio]);
 
-  return (
-    <>
-      <div className="bg-[#2A2D3E] flex flex-col items-center justify-center w-full h-full">
-        <h3 className="mt-[55px] text-left w-full text-base font-semibold px-[40px]">
-          Introdução
-        </h3>
-
-        <div className="w-full">
-          <NavItem toUrl="/" isActive={location.pathname === "/"}>
-            <HomeIcon />
-
-            <div className="ml-[28px]">Início</div>
-          </NavItem>
-        </div>
-
-        <h3 className="mt-[55px] text-left w-full text-base font-semibold px-[40px]">
-          Utilitários
-        </h3>
-
-        <div className="w-full">
-          <NavItem
-            toUrl="/remaining-money"
-            isActive={location.pathname === "/remaining-money"}
-          >
-            <FinancingIcon />
-
-            <div className="ml-[28px]"> Quanto vai sobrar?</div>
-          </NavItem>
-
-          <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
-            <TaskIcon />
-            <div className="ml-[28px]"> Gerenciador de tasks</div>
-          </NavItem>
-
-          {/* <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
-            <DevIcon />
-            <div className="ml-[28px]"> Configs do vscode</div>
-          </NavItem> */}
-
-          {/* <NavItem toUrl="/tasks" isActive={location.pathname === "/tasks"}>
-            <ChatIcon />
-            <div className="ml-[28px]"> Chatbot Yara</div>
-          </NavItem> */}
-
-          <NavItem toUrl="/ux" isActive={location.pathname === "/ux"}>
-            <UxIcon />
-            <div className="ml-[28px]"> Ajuda UX</div>
-          </NavItem>
-        </div>
-
-        {/* <h3 className="mt-[55px] text-left w-full text-base font-semibold px-[40px]">
-          Entreterimento
-        </h3> */}
-
-        <div className="w-full">
-          {/* <NavItem
-            toUrl="/playlists"
-            isActive={location.pathname === "/playlists"}
-          >
-            <MusicIcon />
-            <div className="ml-[28px]"> Playlist diversos</div>
-          </NavItem> */}
-
-          {/* <NavItem
-            toUrl="/playlists"
-            isActive={location.pathname === "/playlists"}
-          >
-            <DnaIcon />
-            <div className="ml-[28px]"> Pesquisa maluca</div>
-          </NavItem> */}
-
-          {/* <NavItem toUrl="/games" isActive={location.pathname === "/games"}>
-            <GamesIcon />
-            <div className="ml-[28px]"> Jogos e review pessoal</div>
-          </NavItem> */}
-
-          {/* <NavItem toUrl="/gallery" isActive={location.pathname === "/gallery"}>
-            <GalleryIcon />
-            <div className="ml-[28px]"> Galeria</div>
-          </NavItem> */}
-          {/*
-          <NavItem toUrl="/eris" isActive={location.pathname === "/eris"}>
-            <ChatIcon />
-            <div className="ml-[28px]"> Chatbot Éris - troll</div>
-          </NavItem> */}
-        </div>
+  if (!acceptAudio) {
+    return (
+      <div className="min-h-[100vh] min-w-[100vw] max-h-[100vh] max-w-[100vw] flex items-center justify-center bg-black overflow-hidden absolute top-0 left-0 z-[999]">
+        <button
+          type="button"
+          className="text-white text-[32px] uppercase w-full h-screen"
+          onClick={() => {
+            setAcceptAudio(true);
+          }}
+        >
+          Clique para continuar
+        </button>
       </div>
-    </>
-  );
-};
+    );
+  }
 
-export { Layout };
+  return <div></div>;
+};
