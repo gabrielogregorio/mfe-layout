@@ -36,8 +36,8 @@ jobs:
         run: |
           BRANCH_NAME=${GITHUB_HEAD_REF##*/}
           echo "Branch name: $BRANCH_NAME"
-          echo "Build directory: dist/$BRANCH_NAME"
-          echo "::set-output name=build_directory::dist/$BRANCH_NAME"
+          echo "Build directory: preview/$BRANCH_NAME"
+          echo "::set-output name=build_directory::preview/$BRANCH_NAME"
           echo "::set-output name=build_directory_without_base::$BRANCH_NAME"
 
       - name: build App
@@ -49,14 +49,24 @@ jobs:
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/mfe-layout.git
           mkdir -p preview/${{ steps.branch_directory.outputs.build_directory }}
           cp -r dist/* preview/${{ steps.branch_directory.outputs.build_directory }}
-          npx gh-pages -d preview/ --add -u "github-actions-bot <support+actions@github.com>"
+          npx gh-pages -d preview --add -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: deploy will be done
+
       - name: comment on PR
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            🚀 Deploy deverá ser feito em https://gabrielogregorio.github.io/mfe-layout/${{ steps.branch_directory.outputs.build_directory_without_base }}
+            🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js
+          edit-mode: replace
