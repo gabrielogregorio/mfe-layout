@@ -9,7 +9,6 @@ const lifeCycles = singleSpaReact({
   React,
   ReactDOM,
   rootComponent: (props: any) => {
-    console.log(props.singleSpa);
     return (
       <BrowserRouter>
         <Layout />

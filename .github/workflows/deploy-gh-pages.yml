@@ -28,9 +28,19 @@ jobs:
       - name: build MFE
         run: npm run build
 
-      - name: deploy with gh-pages
+      - name: get current version
+        id: get-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $VERSION"
+          echo "TAG_VERSION=v$VERSION" >> $GITHUB_ENV
+
+      - name: deploy with gh-pages by version
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/mfe-layout.git
-          npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
+          mkdir -p ${{ env.TAG_VERSION }}
+          cp -r dist/* ${{ env.TAG_VERSION }}
+          npx gh-pages -d ${{ env.TAG_VERSION }} --add -u "github-actions-bot <support+actions@github.com>"
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
