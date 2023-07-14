@@ -48,7 +48,7 @@ jobs:
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/mfe-layout.git
           mkdir -p preview/${{ steps.branch_directory.outputs.build_directory }}
-          cp -r build/* preview/${{ steps.branch_directory.outputs.build_directory }}
+          cp -r dist/* preview/${{ steps.branch_directory.outputs.build_directory }}
           npx gh-pages -d preview/ --add -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
