@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: install dependencies and test
+      - name: install dependencies
         run: npm install --frozen-lockfile
 
-      - name: build MFE
+      - name: build
         run: npm run build
 
       - name: get current version
@@ -38,9 +38,9 @@ jobs:
       - name: deploy with gh-pages by version
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/mfe-layout.git
-          mkdir -p ${{ env.TAG_VERSION }}
-          cp -r dist/* ${{ env.TAG_VERSION }}
-          npx gh-pages -d ${{ env.TAG_VERSION }} --add -u "github-actions-bot <support+actions@github.com>"
+          mkdir -p deploy/${{ env.TAG_VERSION }}
+          cp -r dist/* deploy/${{ env.TAG_VERSION }}
+          npx gh-pages -d deploy/${{ env.TAG_VERSION }} --add -u "github-actions-bot <support+actions@github.com>"
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
