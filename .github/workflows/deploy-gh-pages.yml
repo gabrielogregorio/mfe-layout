@@ -40,7 +40,6 @@ jobs:
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/mfe-layout.git
           mkdir -p deploy/${{ env.TAG_VERSION }}
           cp -r dist/* deploy/${{ env.TAG_VERSION }}
-          npx gh-pages -d deploy/${{ env.TAG_VERSION }} --add -u "github-actions-bot <support+actions@github.com>"
-
+          npx gh-pages -d deploy --add -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
