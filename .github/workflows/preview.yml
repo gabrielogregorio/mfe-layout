@@ -36,6 +36,16 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: deploy will be done
 
+      - name: comment on PR, deploy to preview
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: >
+            📺 Deploy to preview branch 📺
+          edit-mode: replace
+
       - name: comment on PR, install packages
         uses: peter-evans/create-or-update-comment@v3
         with:
@@ -43,8 +53,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
-            ⭐ install packages...
-          edit-mode: replace
+            ⭐ Install packages...
 
       - name: install dependencies
         run: yarn --frozen-lockfile
@@ -56,7 +65,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
-            🔨 building app...
+            🔨 Building app...
 
       - name: set branch name and build directory
         id: branch_directory
@@ -78,7 +87,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
-            🧑‍💻 start deploy...
+            🧑‍💻 Start deploy...
 
       - name: deploy with gh-pages
         run: |
