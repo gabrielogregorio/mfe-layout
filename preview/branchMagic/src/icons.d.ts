@@ -1,0 +1,10 @@
+export declare const HomeIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const FinancingIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const TaskIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const DevIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const ChatIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const UxIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const MusicIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const DnaIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const GamesIcon: () => import("react/jsx-runtime").JSX.Element;
+export declare const GalleryIcon: () => import("react/jsx-runtime").JSX.Element;
