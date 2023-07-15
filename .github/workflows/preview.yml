@@ -44,6 +44,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             ⭐ install packages...
+          edit-mode: replace
 
       - name: install dependencies
         run: yarn --frozen-lockfile
@@ -100,10 +101,4 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
-            🚀 The deploy will be done\n
-            ```json\n
-            {\n
-              "@mfe/layout": "https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}"\n
-            }\n
-            ```
-          edit-mode: replace
+            🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
