@@ -61,12 +61,22 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: deploy will be done
 
+      - name: Get current time
+        id: currentTime
+        run: echo "::set-output name=current_time::$(date +'%d-%m-%Y-%H.%M:%S')"
+        shell: bash
+
       - name: comment on PR
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js
+          body: >
+            🚀 The deploy will be done
+            ```json
+            {
+              "@mfe/layout": "https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}"
+            }
+            ```
           edit-mode: replace
