@@ -36,11 +36,30 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: to preview branch
 
+      - name: Check if comment exists
+        id: check-comment
+        run: |
+          echo "::set-output name=comment-exists::${{ steps.find-comment.outputs.comment-id != '' }}"
+
+      - name: Create comment if does not exist
+        id: create-comment
+        uses: peter-evans/create-or-update-comment@v3
+        if: steps.check-comment.outputs.comment-exists == 'false'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: 'Creating comment because none exists yet.'
+
+      - name: Get comment ID
+        id: get-comment-id
+        run: |
+          echo "::set-output name=comment-id::${{ steps.find-comment.outputs.comment-id != '' && steps.find-comment.outputs.comment-id || steps.create-comment.outputs.comment-id }}"
+
       - name: comment on PR, deploy to preview
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             📺 Deploy to preview branch 📺
@@ -50,7 +69,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             ⭐ Install packages...
@@ -62,7 +81,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🔨 Building app...
@@ -84,7 +103,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🧑‍💻 Start deploy...
@@ -107,7 +126,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
