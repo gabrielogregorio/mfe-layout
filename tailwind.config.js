@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./index.html", "./src/**/*.{jsx,tsx}"],
-  darkMode: "class",
+  content: ['./index.html', './src/**/*.{jsx,tsx}'],
+  darkMode: 'class',
   plugins: [],
 };

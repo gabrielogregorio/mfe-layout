@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 export const Layout = () => {
   const [acceptAudio, setAcceptAudio] = useState<boolean>(false);
@@ -20,8 +20,7 @@ export const Layout = () => {
           className="text-white text-[32px] uppercase w-full h-screen"
           onClick={() => {
             setAcceptAudio(true);
-          }}
-        >
+          }}>
           Clique para continuar
         </button>
       </div>
