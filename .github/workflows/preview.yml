@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  deploy:
+  preview:
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,43 +23,43 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: setup node ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Find Comment
+      - name: find bot comment
         uses: peter-evans/find-comment@v2
-        id: find-comment
+        id: find-old-bot-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: to preview branch
 
-      - name: Check if comment exists
-        id: check-comment
+      - name: check if bot comment exists
+        id: check-bot-comment
         run: |
-          echo "::set-output name=comment-exists::${{ steps.find-comment.outputs.comment-id != '' }}"
+          echo "::set-output name=comment-exists::${{ steps.find-old-bot-comment.outputs.comment-id != '' }}"
 
-      - name: Create comment if does not exist
-        id: create-comment
+      - name: create first bot comment if not exists
+        id: create-first-bot-comment
         uses: peter-evans/create-or-update-comment@v3
-        if: steps.check-comment.outputs.comment-exists == 'false'
+        if: steps.check-bot-comment.outputs.comment-exists == 'false'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: 'Creating comment because none exists yet.'
+          body: 'Starting bot'
 
-      - name: Get comment ID
-        id: get-comment-id
+      - name: get comment id, existing or new
+        id: get-new-or-old-comment-id
         run: |
-          echo "::set-output name=comment-id::${{ steps.find-comment.outputs.comment-id != '' && steps.find-comment.outputs.comment-id || steps.create-comment.outputs.comment-id }}"
+          echo "::set-output name=comment-id::${{ steps.find-old-bot-comment.outputs.comment-id != '' && steps.find-old-bot-comment.outputs.comment-id || steps.create-first-bot-comment.outputs.comment-id }}"
 
-      - name: comment on PR, deploy to preview
+      - name: comment on pr, deploy to preview
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
+          comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             📺 Deploy to preview branch 📺
@@ -69,7 +69,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
+          comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             ⭐ Install packages...
@@ -81,7 +81,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
+          comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🔨 Building app...
@@ -103,7 +103,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
+          comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🧑‍💻 Start deploy...
@@ -126,7 +126,20 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment-id: ${{ steps.get-comment-id.outputs.comment-id }}
+          comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: >
             🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
+
+report-failure:
+  if: failure()
+  needs: [preview]
+  runs-on: ubuntu-latest
+  steps:
+    - name: Report failure
+      uses: peter-evans/create-or-update-comment@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: >
+          ❌ An error occurred during the job preview execution. Please check the logs for details.
