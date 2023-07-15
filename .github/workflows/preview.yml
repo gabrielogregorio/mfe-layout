@@ -61,8 +61,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            📺 Deploy to preview branch 📺
+          body: |
+            # 📺 Deploy to preview branch 📺
+
+            ------
           edit-mode: replace
 
       - name: comment on PR, install packages
@@ -71,8 +73,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            ⭐ Install packages...
+          body: |
+            - ⭐ Install packages...
 
       - name: install dependencies
         run: yarn --frozen-lockfile
@@ -83,8 +85,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            🔨 Building app...
+          body: |
+            - 🔨 Building app...
 
       - name: set branch name and build directory
         id: branch_directory
@@ -105,8 +107,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            🧑‍💻 Start deploy...
+          body: |
+            - 🧑‍💻 Start deploy...
 
       - name: deploy with gh-pages
         run: |
@@ -128,8 +130,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           comment-id: ${{ steps.get-new-or-old-comment-id.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
+          body: |
+            - 🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
+          reactions: |
+            heart
 
   report-failure:
     if: failure()
@@ -141,5 +145,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: >
-            ❌ An error occurred during the job preview execution. Please check the logs for details.
+          body: ❌ An error occurred during the job preview execution. Please check the logs for details.
