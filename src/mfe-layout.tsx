@@ -8,7 +8,7 @@ import './tailwind.css';
 const lifeCycles = singleSpaReact({
   React,
   ReactDOM,
-  rootComponent: (props: any) => {
+  rootComponent: () => {
     return (
       <BrowserRouter>
         <Layout />
@@ -16,7 +16,7 @@ const lifeCycles = singleSpaReact({
     );
   },
   errorBoundary() {
-    return null;
+    return <span data-error-mfe-layout="hasError" />;
   },
 });
 

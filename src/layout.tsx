@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/base/button';
 
 export const Layout = () => {
   const [acceptAudio, setAcceptAudio] = useState<boolean>(false);
@@ -17,14 +18,12 @@ export const Layout = () => {
       <div
         data-mfe-version={process.env.PACKAGE_VERSION}
         className="min-h-[100vh] min-w-[100vw] max-h-[100vh] max-w-[100vw] flex items-center justify-center bg-black overflow-hidden absolute top-0 left-0 z-[999]">
-        <button
-          type="button"
-          className="text-white text-[32px] uppercase w-full h-screen"
+        <Button
           onClick={() => {
             setAcceptAudio(true);
           }}>
           Clique para continuar
-        </button>
+        </Button>
       </div>
     );
   }
