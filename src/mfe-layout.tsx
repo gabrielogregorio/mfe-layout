@@ -14,11 +14,14 @@ const lifeCycles = singleSpaReact({
   rootComponent: () => {
     return (
       <BrowserRouter>
-        <Layout />
+        <div id={ID_PROJECT_TO_TAILWIND_CONFIG}>
+          <Layout />
+        </div>
       </BrowserRouter>
     );
   },
-  errorBoundary(err: Error, errInfo: React.ErrorInfo, props: AppProps) {
+
+  errorBoundary: (err: Error, errInfo: React.ErrorInfo, props: AppProps) => {
     console.log('mfe-layout-report-error', JSON.stringify(err));
     console.log('mfe-layout-report-errInfo', JSON.stringify(errInfo));
     console.log('mfe-layout-report-props', JSON.stringify(props));
