@@ -1,5 +1,11 @@
 const singleSpaDefaults = require('webpack-config-single-spa-react-ts');
 const { mergeWithRules } = require('webpack-merge');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const webpack = require('webpack');
+
+const envKeys = {
+  'process.env.PACKAGE_VERSION': `"${process.env.PACKAGE_VERSION}"`,
+};
 
 const ruleProcessTailwindStyles = {
   test: /\.css$/i,
@@ -30,8 +36,16 @@ module.exports = (webpackConfigEnv, argv) => {
       },
     },
   })(defaultConfig, {
+    plugins: [new webpack.DefinePlugin(envKeys)],
     module: {
       rules: [ruleProcessTailwindStyles],
+    },
+    resolve: {
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: './tsconfig.json',
+        }),
+      ],
     },
   });
 
