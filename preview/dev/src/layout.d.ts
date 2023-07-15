@@ -1,1 +1,2 @@
-export declare const Layout: () => import("react/jsx-runtime").JSX.Element;
+/// <reference types="react" />
+export declare const Layout: () => JSX.Element;
