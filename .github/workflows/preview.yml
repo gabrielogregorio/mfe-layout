@@ -131,15 +131,15 @@ jobs:
           body: >
             🚀 The deploy will be done in https://gabrielogregorio.github.io/mfe-layout/preview/${{ steps.branch_directory.outputs.build_directory_without_base }}/mfe-layout.js?nocache=${{ steps.currenttime.outputs.current_time }}
 
-report-failure:
-  if: failure()
-  needs: [preview]
-  runs-on: ubuntu-latest
-  steps:
-    - name: Report failure
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        issue-number: ${{ github.event.pull_request.number }}
-        body: >
-          ❌ An error occurred during the job preview execution. Please check the logs for details.
+  report-failure:
+    if: failure()
+    needs: [preview]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report failure
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: >
+            ❌ An error occurred during the job preview execution. Please check the logs for details.
