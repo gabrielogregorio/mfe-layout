@@ -2,7 +2,6 @@ module.exports = {
   root: true,
   extends: ['ts-react-important-stuff', 'plugin:prettier/recommended', 'plugin:react/recommended', 'prettier'],
 
-  // parser: '@babel/eslint-parser', // old
   parser: '@typescript-eslint/parser',
 
   plugins: ['react-hooks', '@typescript-eslint', 'react', 'sonarjs', 'import'],
